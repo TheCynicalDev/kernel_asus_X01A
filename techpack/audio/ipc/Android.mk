@@ -30,13 +30,17 @@ LOCAL_PATH := $(call my-dir)
 ifneq ($(findstring vendor,$(LOCAL_PATH)),)
 
 ifneq ($(findstring opensource,$(LOCAL_PATH)),)
-	AUDIO_BLD_DIR := $(ANDROID_BUILD_TOP)/vendor/qcom/opensource/audio-kernel
+	AUDIO_BLD_DIR := $(shell pwd)/vendor/qcom/opensource/audio-kernel
 endif # opensource
 
 ifeq ($(AUDIO_FEATURE_ENABLED_DLKM_8909W),true)
 DLKM_DIR := $(TOP)/device/qcom/msm8909w/common/dlkm
 else
 DLKM_DIR := $(TOP)/device/qcom/common/dlkm
+endif
+
+ifeq ($(TARGET_SUPPORTS_WEARABLES),true)
+DLKM_DIR := $(BOARD_COMMON_DIR)/dlkm
 endif
 
 # Build audio.ko as $(AUDIO_CHIPSET)_audio.ko
